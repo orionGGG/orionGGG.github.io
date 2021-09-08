@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="在这里，谈一谈我对于递归的认识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="递归">
+<meta property="og:url" content="http://yoursite.com/2020/10/23/%E9%80%92%E5%BD%92/index.html">
+<meta property="og:site_name" content="MyBlog">
+<meta property="og:description" content="在这里，谈一谈我对于递归的认识">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/2020/10/23/%E9%80%92%E5%BD%92/%E8%B0%83%E7%94%A8%E6%A0%881.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/10/23/%E9%80%92%E5%BD%92/%E8%B0%83%E7%94%A8%E6%A0%882.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/10/23/%E9%80%92%E5%BD%92/%E8%B0%83%E7%94%A8%E6%A0%883.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/10/23/%E9%80%92%E5%BD%92/%E8%B0%83%E7%94%A8%E6%A0%884.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/10/23/%E9%80%92%E5%BD%92/%E8%B0%83%E7%94%A8%E6%A0%885.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/10/23/%E9%80%92%E5%BD%92/%E9%80%92%E5%BD%92%E8%B0%83%E7%94%A8%E6%A0%881.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/10/23/%E9%80%92%E5%BD%92/%E9%80%92%E5%BD%92%E8%B0%83%E7%94%A8%E6%A0%882.jpg">
+<meta property="og:image" content="http://yoursite.com/2020/10/23/%E9%80%92%E5%BD%92/%E9%80%92%E5%BD%92%E8%B0%83%E7%94%A8%E6%A0%883.jpg">
+<meta property="article:published_time" content="2020-10-23T12:39:36.000Z">
+<meta property="article:modified_time" content="2020-10-26T01:06:31.950Z">
+<meta property="article:author" content="orion">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/10/23/%E9%80%92%E5%BD%92/%E8%B0%83%E7%94%A8%E6%A0%881.jpg">
+
+<link rel="canonical" href="http://yoursite.com/2020/10/23/%E9%80%92%E5%BD%92/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>递归 | MyBlog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">MyBlog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/23/%E9%80%92%E5%BD%92/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/suki.jpg">
+      <meta itemprop="name" content="orion">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="MyBlog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          递归
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-10-23 20:39:36" itemprop="dateCreated datePublished" datetime="2020-10-23T20:39:36+08:00">2020-10-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-26 09:06:31" itemprop="dateModified" datetime="2020-10-26T09:06:31+08:00">2020-10-26</time>
+              </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>在这里，谈一谈我对于递归的认识</p>
+<a id="more"></a>
+
+<p>个人认为递归最重要的几个点</p>
+<h2 id="递归条件和基线条件"><a href="#递归条件和基线条件" class="headerlink" title="递归条件和基线条件"></a>递归条件和基线条件</h2><p>递归条件指的是函数调用自己，而基线条件则指的是函数不再调用自己，从而避免形成无限循环。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">countdown</span>(<span class="params">i</span>):</span></span><br><span class="line">    <span class="keyword">print</span> i</span><br><span class="line"> <span class="keyword">if</span> i &lt;= <span class="number">1</span>:  <span class="comment">#基线条件</span></span><br><span class="line">    <span class="keyword">return</span></span><br><span class="line"> <span class="keyword">else</span>:</span><br><span class="line"> countdown(i<span class="number">-1</span>)  <span class="comment">#递归条件</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="调用栈"><a href="#调用栈" class="headerlink" title="调用栈"></a>调用栈</h2><p>理解递归的过程中理解栈是十分重要的一环。</p>
+<p>栈我就不做过多解释了。</p>
+<p>在这里多讲一下调用栈。<br>先说结论：所有函数调用都得进入调用栈<br>计算机在内部使用被称为调用栈的栈。<br>我们来看看计算机是如何使用调用栈的。下面是一个简单的函数。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">greet</span>(<span class="params">name</span>):</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;hello, &quot;</span> + name + <span class="string">&quot;!&quot;</span></span><br><span class="line">    greet2(name)</span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;getting ready to say bye.&quot;</span></span><br><span class="line">    bye()</span><br></pre></td></tr></table></figure>
+
+<p>这个函数问候用户，再调用另外两个函数。这两个函数的代码如下。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">greet2</span>(<span class="params">name</span>):</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;how are you, &quot;</span> + name + <span class="string">&quot;?&quot;</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">bye</span>():</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">&quot;ok bye!&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>假设你调用greet(“myname”)，计算机首先为该函数调用分配一块内存</p>
+<p><img src="/2020/10/23/%E9%80%92%E5%BD%92/%E8%B0%83%E7%94%A8%E6%A0%881.jpg" alt="调用栈"></p>
+<p>我们来使用这些内存。变量name被设置为myname，这需要存储到内存中。</p>
+<p><img src="/2020/10/23/%E9%80%92%E5%BD%92/%E8%B0%83%E7%94%A8%E6%A0%882.jpg" alt="调用栈"></p>
+<p>每当你调用函数时，计算机都像这样将函数调用涉及的所有变量的值存储到内存中。接下来，你打印hello, myname ，再调用greet(myname)。同样，计算机也为这个函数调用分配一块内存。</p>
+<p><img src="/2020/10/23/%E9%80%92%E5%BD%92/%E8%B0%83%E7%94%A8%E6%A0%883.jpg" alt="调用栈"></p>
+<p>计算机使用一个栈来表示这些内存块，其中第二个内存块位于第一个内存块上面。你打印how are you, myname?，然后从函数调用返回，此时，栈顶的内存被弹出。</p>
+<p><img src="/2020/10/23/%E9%80%92%E5%BD%92/%E8%B0%83%E7%94%A8%E6%A0%884.jpg" alt="调用栈"></p>
+<p>现在，栈顶的内存块是函数greet的，这意味着你返回到了函数greet。当你调用函数greet2时，函数greet只执行了一部分。这是本节的一个重要概念：<strong>调用另一个函数时，当前函数暂停并处于未完成状态。</strong>(这涉及到递归的执行顺序问题，需要好好理解)该函数的所有变量的值都还在内存中。执行完函数greet2后，你回到函数greet，并从离开的地方开始接着往下执行：首先打印”getting ready to say bye.”，再调用函数bye。</p>
+<p><img src="/2020/10/23/%E9%80%92%E5%BD%92/%E8%B0%83%E7%94%A8%E6%A0%885.jpg" alt="调用栈"></p>
+<p>在栈顶添加了函数bye的内存块。然后，你打印ok bye!，并从这个函数返回。<br>现在你又回到了函数greet。由于没有别的事情要做，你就从函数greet返回。<br>这个栈用于存储多个函数的变量，被称为调用栈。</p>
+<h2 id="递归调用栈"><a href="#递归调用栈" class="headerlink" title="递归调用栈"></a>递归调用栈</h2><p>递归函数也使用调用栈！</p>
+<p>来看看递归函数factorial的调用栈。factorial(5)写作5!，其定义如下：5! = 5*4*3*2*1</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fact</span>(<span class="params">x</span>):</span></span><br><span class="line"> <span class="keyword">if</span> x == <span class="number">1</span>:</span><br><span class="line">    <span class="keyword">return</span> <span class="number">1</span></span><br><span class="line"> <span class="keyword">else</span>:</span><br><span class="line">    <span class="keyword">return</span> x * fact(x<span class="number">-1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>下面来详细分析调用fact(3)时调用栈是如何变化的。别忘了，栈顶的方框指出了当前执行到了什么地方。</p>
+<p><img src="/2020/10/23/%E9%80%92%E5%BD%92/%E9%80%92%E5%BD%92%E8%B0%83%E7%94%A8%E6%A0%881.jpg" alt="递归调用栈"></p>
+<p><img src="/2020/10/23/%E9%80%92%E5%BD%92/%E9%80%92%E5%BD%92%E8%B0%83%E7%94%A8%E6%A0%882.jpg" alt="递归调用栈"></p>
+<p><img src="/2020/10/23/%E9%80%92%E5%BD%92/%E9%80%92%E5%BD%92%E8%B0%83%E7%94%A8%E6%A0%883.jpg" alt="递归调用栈"></p>
+<p>注意，每个fact调用都有自己的x变量。在一个函数调用中不能访问另一个的x变量。<br>递归的函数执行完毕就返回上一级的未完成状态，也就是递归函数的位置，接下来遇到return或者进行到结尾就代表执行完毕了</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/09/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="prev" title="数据结构与算法学习笔记">
+      <i class="fa fa-chevron-left"></i> 数据结构与算法学习笔记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/11/24/%E6%8C%87%E9%92%88/" rel="next" title="指针">
+      指针 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E6%9D%A1%E4%BB%B6%E5%92%8C%E5%9F%BA%E7%BA%BF%E6%9D%A1%E4%BB%B6"><span class="nav-number">1.</span> <span class="nav-text">递归条件和基线条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E6%A0%88"><span class="nav-number">2.</span> <span class="nav-text">调用栈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%92%E5%BD%92%E8%B0%83%E7%94%A8%E6%A0%88"><span class="nav-number">3.</span> <span class="nav-text">递归调用栈</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="orion"
+      src="/images/suki.jpg">
+  <p class="site-author-name" itemprop="name">orion</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/orionGGG" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;orionGGG" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">orion</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
